@@ -4,8 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node consumerTests/verifyPacts.js",
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "test:voucher": "node consumerTests/verifyVoucherPacts.js",
+    "test:product": "node consumerTests/verifyProductPacts.js",
+    "can-i-deploy:voucherManager": "$(find ./node_modules -name pact-broker | grep -e 'bin/pact-broker$' | head -n 1) can-i-deploy --pacticipant 'VoucherManager' --latest --broker-base-url http://localhost",
+    "can-i-deploy:productsManager": "$(find ./node_modules -name pact-broker | grep -e 'bin/pact-broker$' | head -n 1) can-i-deploy --pacticipant 'ProductsManager' --latest --broker-base-url http://localhost"
   },
   "keywords": [],
   "author": "",

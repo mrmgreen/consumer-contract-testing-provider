@@ -1,10 +1,11 @@
 const app = require('express')();
 const bodyParser = require('body-parser');
 
+const { product, products } = require('./controllers/product');
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// app.get('/users', (req,res) => res.json(JSON.stringify({ name: 'Dave'})))
 app.get('/vouchers/:voucherId', (req,res) => { 
   if (req.params.voucherId === '1234') {
     return res.json({ promotionId: 1234, primaryProductId: 9999 });
@@ -13,6 +14,9 @@ app.get('/vouchers/:voucherId', (req,res) => {
     res.status(404).end();
   }
 });
+
+app.get('/product/:productId', product);
+app.get('/products', products);
 
 app.post('/vouchers', (req,res) => {
   const voucher = req.body;
