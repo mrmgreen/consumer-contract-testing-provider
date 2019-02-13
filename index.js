@@ -1,29 +1,26 @@
 const app = require('express')();
 const bodyParser = require('body-parser');
+const port = 1111;
 
+const { createVoucher, getVoucher } = require('./controllers/vouchers');
 const { product, products } = require('./controllers/product');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.get('/vouchers/:voucherId', (req,res) => { 
-  if (req.params.voucherId === '1234') {
-    return res.json({ promotionId: 1234, primaryProductId: 9999 });
-  }
-  else {
-    res.status(404).end();
-  }
-});
+app.get('/vouchers/:voucherId', getVoucher);
 
 app.get('/product/:productId', product);
 app.get('/products', products);
 
-app.post('/vouchers', (req,res) => {
-  const voucher = req.body;
-  if (voucher.code === 'MYENTSVOUCHER' && voucher.action === "ADD") {
-    return res.status(201).json({voucherId:6789}); 
+app.post('/vouchers', createVoucher);
+
+app.post('/test/setup', (req,res) => {
+  if(req.body.consumer === "MyConsumer") {
+    if(req.body.state === 'i have a voucher with a matching id') {
+    
+    }
   }
-  res.status(400).end();
 });
 
-app.listen(1111, () => console.log('you are live Johnny Five'));  
+app.listen(port, () => console.log(`you are live Johnny Five... on port ${port}`));  
