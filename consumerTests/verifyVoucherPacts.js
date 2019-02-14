@@ -7,7 +7,6 @@ const opts = {
   providerStatesSetupUrl: 'http://localhost:1111/test/setup', // the url to call to set up states
   pactBrokerUrl: 'http://localhost',
   provider: 'VoucherManager',
-  // pactUrls: ['/Users/mgr52/Code/play/contract-testing/my-test/1/consumer/pacts/myconsumer-vouchermanager.json'], // the pacts to test against
   publishVerificationResult: true,
   providerVersion: '1.0.0',
   timeout: 10000

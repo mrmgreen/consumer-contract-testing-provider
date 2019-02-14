@@ -10,3 +10,20 @@ Run `yarn can-i-deploy:<service to deploy>`
 Service to deploy could be voucher or products manager.
 
 This will query the broker and exit 1 or 0 depending on the result. It also provides a table as std out with details from the broker.
+
+## Setting up provider state
+The provider state is setup but adding `providerStatesSetupUrl` key to the options of verifyPacts.
+VerifyPacts will post a json body to this endpoint if it exists. This json will look like:
+```
+{
+  "consumer": "MyConsumer",
+  "state": "voucherId exists"
+}
+```
+This endpoint should only exist in test mode. It should setup any provider state before the tests run.
+
+I have created a `test/setup` endpoint that just logs the provider state for now.
+
+These tests should be run locally and all services should be mocked. 
+
+I would favour creating these provider states in the mock data rather than using the providerStatesSetupUrl endpoint. It would mean more communication between teams for the initial setup. 
