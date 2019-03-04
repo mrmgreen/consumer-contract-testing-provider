@@ -1,23 +1,32 @@
 'use strict'
 
-const pact = require('@pact-foundation/pact-node')
+const { Verifier } = require('@pact-foundation/pact')
 
-const opts = {
-  providerBaseUrl: 'http://localhost:1111', // where your service will be running during the test, either staging or localhost on CI
-  providerStatesSetupUrl: 'http://localhost:1111/test/setup', // the url to call to set up states
-  pactBrokerUrl: 'http://localhost',
-  provider: 'VoucherManager',
-  publishVerificationResult: true,
-  providerVersion: '1.0.0',
-  timeout: 10000
-}
+describe('Pact Verification for Vouchers', () => {
+  it('validates the expectations of Matching Service', () => {
+    const opts = {
+      stateHandlers: {
+        'I have a voucher with a matching id': () => {
+          console.log('Add voucher id to db if using db')
+          return Promise.resolve('Voucher added to db')
+        }
+      },
+      providerBaseUrl: 'http://localhost:1111',
+      pactBrokerUrl: 'http://localhost',
+      provider: 'VoucherManager',
+      publishVerificationResult: true,
+      providerVersion: '1.0.0',
+      timeout: 10000
+    }
 
-pact.verifyPacts(opts)
-.then(() => {
-  console.log('success')
-  process.exit(0)
+    return new Verifier(opts).verifyProvider()
+      .then(output => {
+        console.log('success', output)
+        process.exit(0)
+      })
+      .catch((error) => {
+        console.log('failed', error)
+        process.exit(1)
+      })
+  })
 })
-.catch((error) => {
-  console.log('failed', error)
-  process.exit(1)
-});
