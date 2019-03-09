@@ -1,9 +1,7 @@
-'use strict'
-
-const { Verifier } = require('@pact-foundation/pact')
+import { Verifier } from '@pact-foundation/pact'
 
 describe('Pact Verification for Products', () => {
-  it('validates the expectations of Matching Service', () => {
+  it('validates the expectations of Matching Service', async () => {
     const opts = {
       stateHandlers: {
         'i have a product with the product id': () => {
@@ -11,7 +9,7 @@ describe('Pact Verification for Products', () => {
           return Promise.resolve('Product added to db')
         }
       },
-      providerBaseUrl: 'http://localhost:1111', // where your service will be running during the test, either staging or localhost on CI
+      providerBaseUrl: 'http://localhost:1111',
       pactBrokerUrl: 'http://localhost',
       provider: 'ProductsManager',
       publishVerificationResult: true,
@@ -19,14 +17,13 @@ describe('Pact Verification for Products', () => {
       timeout: 10000
     }
 
-    return new Verifier(opts).verifyProvider()
-      .then(() => {
-        console.log('success')
-        process.exit(0)
-      })
-      .catch((error) => {
-        console.log('failed', error)
-        process.exit(1)
-      })
+    try {
+      await new Verifier(opts).verifyProvider()
+      console.log('success')
+      process.exit(0)
+    } catch (e) {
+      console.log('failed', e)
+      process.exit(1)
+    }
   })
 })

@@ -1,4 +1,4 @@
-const { vouchers } = require('../db/vouchers')
+import { vouchers } from '../db/vouchers'
 
 function getVoucher (req, res) {
   const voucherIndex = vouchers.findIndex(voucher => {
@@ -19,4 +19,4 @@ function createVoucher (req, res) {
   res.status(400).end()
 }
 
-module.exports = { createVoucher, getVoucher }
+export { createVoucher, getVoucher }

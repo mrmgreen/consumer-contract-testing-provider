@@ -33,4 +33,4 @@ function products (req, res) {
   return res.json({ products: [C_3P0] })
 }
 
-module.exports = { product, products }
+export { product, products }

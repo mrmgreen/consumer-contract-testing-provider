@@ -6,4 +6,4 @@ const vouchers = [
   }
 ]
 
-module.exports = { vouchers }
+export { vouchers }

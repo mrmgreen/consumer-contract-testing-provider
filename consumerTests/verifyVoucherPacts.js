@@ -1,9 +1,7 @@
-'use strict'
-
-const { Verifier } = require('@pact-foundation/pact')
+import { Verifier } from '@pact-foundation/pact'
 
 describe('Pact Verification for Vouchers', () => {
-  it('validates the expectations of Matching Service', () => {
+  it('validates the expectations of Matching Service', async () => {
     const opts = {
       stateHandlers: {
         'I have a voucher with a matching id': () => {
@@ -19,14 +17,13 @@ describe('Pact Verification for Vouchers', () => {
       timeout: 10000
     }
 
-    return new Verifier(opts).verifyProvider()
-      .then(output => {
-        console.log('success', output)
-        process.exit(0)
-      })
-      .catch((error) => {
-        console.log('failed', error)
-        process.exit(1)
-      })
+    try {
+      await new Verifier(opts).verifyProvider()
+      console.log('success')
+      process.exit(0)
+    } catch (e) {
+      console.log('failed', e)
+      process.exit(1)
+    }
   })
 })
